@@ -36,8 +36,8 @@ export default {
   data: () => ({
     drawer: true,
     items: [
-      { title: "Jeu", icon: "mdi-controller-classic", route: "/dashboard" },
-      { title: "Meilleurs scores", icon: "mdi-counter", route: "/users" },
+      { title: "Jeu", icon: "mdi-controller-classic-outline", route: "/dashboard" },
+      { title: "Meilleurs scores", icon: "mdi-trophy-outline", route: "/users" },
     ],
     mini: true,
     expandOnHover: true,
