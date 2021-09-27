@@ -28,7 +28,7 @@
       <span>Démarrer session</span>
     </v-tooltip>
     <v-spacer></v-spacer>
-    <div>&copy; Portalz {{ new Date().getFullYear() }} - Made with ❤️ by <a href="https://github.com/ThibaultDct">ThibaultDct</a></div>
+    <div>&copy; Workshop 2021 - Made with ❤️</div>
   </v-footer>
   <!--------------------------------->
 </template>

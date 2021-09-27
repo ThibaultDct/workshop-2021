@@ -9,17 +9,6 @@
       floating
       color="sidebar"
   >
-    <v-list-item class="px-2">
-      <v-list-item-avatar class="sidebar-logo">
-        <Avatar username="Thibault DOUCET"/>
-      </v-list-item-avatar>
-
-      <v-list-item-title>Portalz</v-list-item-title>
-
-    </v-list-item>
-
-    <v-divider></v-divider>
-
     <v-list dense>
       <v-list-item
           v-for="item in items"
@@ -36,38 +25,19 @@
         </v-list-item-content>
       </v-list-item>
     </v-list>
-
-    <v-divider></v-divider>
-
-    <v-list dense class="justify-end">
-      <v-list-item link @click="logout">
-        <v-list-item-icon>
-          <v-icon class="mr-1">mdi-logout-variant</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Déconnexion</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
   </v-navigation-drawer>
 </template>
 
 <script>
-import Avatar from 'vue-avatar'
-
 export default {
 
   name: "Sidebar",
-
-  components: {Avatar},
 
   data: () => ({
     drawer: true,
     items: [
       { title: "Jeu", icon: "mdi-controller-classic", route: "/dashboard" },
-      { title: "Profil", icon: "mdi-account", route: "/profile" },
       { title: "Meilleurs scores", icon: "mdi-counter", route: "/users" },
-      { title: "Paramètres", icon: "mdi-cog", route: "/settings" },
     ],
     mini: true,
     expandOnHover: true,

@@ -2,14 +2,12 @@ import Vue from 'vue';
 import Dashboard from "@/views/Dashboard";
 import Settings from "@/views/Settings";
 import VueRouter from "vue-router";
-import Profile from "@/views/Profile";
 import UsersList from "@/views/UsersList";
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
-    routes: [
-        {
+    routes: [{
             path: '/dashboard',
             name: 'dashboard',
             component: Dashboard
@@ -18,11 +16,6 @@ const router = new VueRouter({
             path: '/settings',
             name: 'settings',
             component: Settings
-        },
-        {
-            path: '/profile',
-            name: 'profile',
-            component: Profile
         },
         {
             path: '/users',

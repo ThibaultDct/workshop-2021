@@ -1,6 +1,6 @@
 <template>
     <v-container class="ml-5">
-        <v-app-bar dense color="sidebar"><h2>Liste des utilisateurs</h2></v-app-bar>
+        <v-app-bar dense color="sidebar"><h2>Meilleurs scores</h2></v-app-bar>
         <!-- LOADING ANIMATION -->
         <div v-if="loading == true">
             <v-progress-circular indeterminate size="64" color="accent"></v-progress-circular>
@@ -12,7 +12,7 @@
                 border="left"
                 type="error"
             >
-                Oops ! Une erreur est survenue lors du chargement des utilisateurs.
+                Oops ! Une erreur est survenue lors du chargement des scores.
                 <v-btn color="warning" class="d-flex justify-end" v-on:click="loadUsersList">Réessayer</v-btn>
             </v-alert>
         </div>
@@ -24,7 +24,7 @@
                 type="success"
                 dismissible
             >
-                {{getUsersListSize}} utilisateurs récupérés
+                {{getUsersListSize}} score(s) récupéré(s)
             </v-alert>
             <v-list elevation="1">
                 <v-layout class="d-flex">
@@ -49,12 +49,9 @@
                             <v-list-item-subtitle v-text="user.userId"></v-list-item-subtitle>
                         </v-list-item-content>
 
-                        <v-list-item-content v-text="user.mail">
-                        </v-list-item-content>
-
                         <v-list-item-icon>
                             <v-icon>
-                                mdi-link-variant
+                                mdi-trophy-outline
                             </v-icon>
                         </v-list-item-icon>
                     </v-list-item>
