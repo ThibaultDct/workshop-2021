@@ -37,3 +37,19 @@ export default {
 
 };
 </script>
+
+<style>
+
+.v-step > .label > .index {
+  background-color: #2a9d8f !important;
+}
+.v-step.is-active > .label > .index {
+  background-color: #00C853 !important;
+}
+
+.index {
+  box-shadow: none !important;
+  border: 1px solid black !important;
+  color: unset !important;
+}
+</style>

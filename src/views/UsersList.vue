@@ -13,7 +13,7 @@
                 type="error"
             >
                 Oops ! Une erreur est survenue lors du chargement des scores.
-                <v-btn color="warning" class="d-flex justify-end" v-on:click="loadUsersList">Réessayer</v-btn>
+                <v-btn color="warning" class="d-flex justify-end" v-on:click="loadScoreList">Réessayer</v-btn>
             </v-alert>
         </div>
         <!-- USERS LIST -->
@@ -24,40 +24,48 @@
                 type="success"
                 dismissible
             >
-                {{getUsersListSize}} score(s) récupéré(s)
+                {{getScoresListSize}} score(s) récupéré(s)
             </v-alert>
             <v-list elevation="1">
                 <v-layout class="d-flex">
-                    <v-btn class="ma-2" color="accent" v-on:click="loadUsersList"><v-icon>mdi-reload</v-icon></v-btn>
-                    <v-btn v-if="alphabeticalSort == '' || alphabeticalSort == 'descending'"  class="ma-2" color="accent" v-on:click="sortListByNameAscending"><v-icon>mdi-sort-alphabetical-ascending</v-icon></v-btn>
-                    <v-btn v-if="alphabeticalSort == 'ascending'"  class="ma-2" color="accent" v-on:click="sortListByNameDescending"><v-icon>mdi-sort-alphabetical-descending</v-icon></v-btn>
+                    <v-btn class="ma-2" color="accent" v-on:click="loadScoreList"><v-icon>mdi-reload</v-icon></v-btn>
                     <v-spacer/><v-spacer/><v-spacer/><v-text-field class="ma-2 justify-end" rounded filled dense placeholder="Recherche" v-model="searchTerm"></v-text-field>
                 </v-layout>
                 <v-list-item-group>
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title> <strong> Pseudo </strong></v-list-item-title>
+                    </v-list-item-content>
+                    <v-list-item-content>
+                      <v-list-item-title><strong> Score </strong></v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
                     <v-list-item
-                        v-for="user in filterByTerm"
-                        :key="user.username"
+                        v-for="score in scores"
+                        :key="score.pseudo"
                     >
                         <v-list-item-avatar>
                             <v-avatar>
-                                <Avatar :username=user.username></Avatar>
+                                <Avatar :username=score.pseudo></Avatar>
                             </v-avatar>
                         </v-list-item-avatar>
 
                         <v-list-item-content>
-                            <v-list-item-title v-text="user.username" :text-color='hover ? "primary" : "secondary"'></v-list-item-title>
-                            <v-list-item-subtitle v-text="user.userId"></v-list-item-subtitle>
+                          <v-list-item-title v-text="score.pseudo" :text-color='hover ? "primary" : "secondary"'></v-list-item-title>
+                        </v-list-item-content>
+                        <v-list-item-content>
+                          <v-list-item-title v-text="score.score" :text-color='hover ? "primary" : "secondary"'></v-list-item-title>
                         </v-list-item-content>
 
-                        <v-list-item-icon>
-                            <v-icon>
-                                mdi-trophy-outline
-                            </v-icon>
-                        </v-list-item-icon>
+                      <v-list-item-icon>
+                        <v-icon>
+                          mdi-trophy-outline
+                        </v-icon>
+                      </v-list-item-icon>
                     </v-list-item>
                 </v-list-item-group>
                 <v-subheader>
-                    Total : {{getFilteredUsersListSize}}
+                    Total : {{getScoresListSize}}
                 </v-subheader>
             </v-list>
         </div>
@@ -67,11 +75,11 @@
 <script>
 import Avatar from "vue-avatar"
 
-const apiUrl = "https://portalz.cloud2.thibaultdct.fr"
-const usersEndpoint = "/users/"
+const apiUrl = "https://workshop.cloud.thibaultdct.fr"
+const scoreEndpoint = "/scores"
 
 export default {
-    name: "UsersList",
+    name: "ScoreList",
     components: {Avatar},
 
     data() {
@@ -79,23 +87,22 @@ export default {
             overlay: true,
             loading: true,
             isError: false,
-            users: null,
+            scores: null,
             searchTerm: "",
-            alphabeticalSort: "",
         }
     },
 
     methods: {
-        loadUsersList: function () {
-            this.users = null
+        loadScoreList: function () {
+            this.scores = null
             this.loading = true
             this.isError = false
             this.searchTerm = ""
             this.axios
-                .get(apiUrl + usersEndpoint)
+                .get(apiUrl + scoreEndpoint)
                 .then(res => {
                     console.log(res)
-                    this.users = res.data.users
+                    this.scores = this.sortScores(res.data.scores)
                     this.loading = false
                 })
                 .catch(err => {
@@ -104,37 +111,20 @@ export default {
                     this.isError = true
                 })
         },
-        sortListByNameAscending: function () {
-            this.alphabeticalSort = 'ascending'
-            this.users.sort(function(a, b) {
-                return a.username[0] > b.username[0]
-            })
-        },
-        sortListByNameDescending: function () {
-            this.alphabeticalSort = 'descending'
-            this.users.sort(function(a, b) {
-                return a.username[0] <= b.username[0]
+        sortScores: function (score) {
+            return score.sort(function(a, b) {
+                return a.score < b.score
             })
         },
     },
     
     mounted() {
-        this.loadUsersList()
+        this.loadScoreList();
     },
 
     computed: {
-        getUsersListSize () {
-            return this.users.length
-        },
-        getFilteredUsersListSize () {
-            return this.filterByTerm.length
-        },
-        filterByTerm () {
-            return this.users.filter(user => {
-                return user.username.toLowerCase().includes(this.searchTerm.toLowerCase())
-                || user.mail.toLowerCase().includes(this.searchTerm.toLowerCase())
-                || user.user_id.toLowerCase().includes(this.searchTerm.toLowerCase());
-            })
+        getScoresListSize () {
+            return this.scores.length
         },
     },
 
